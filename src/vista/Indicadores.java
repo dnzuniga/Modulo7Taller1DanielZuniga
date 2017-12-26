@@ -172,14 +172,14 @@ public class Indicadores extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jLabel2.setText("Menor Variación");
+        jLabel2.setText("Menor Diferencia");
 
         txaMenorVariacion.setColumns(20);
         txaMenorVariacion.setRows(5);
         jScrollPane2.setViewportView(txaMenorVariacion);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jLabel3.setText("Mayor Variación");
+        jLabel3.setText("Mayor Diferencia");
 
         txaMayorVariacion.setColumns(20);
         txaMayorVariacion.setRows(5);

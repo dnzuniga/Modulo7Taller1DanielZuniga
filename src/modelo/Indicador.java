@@ -24,7 +24,7 @@ public class Indicador {
     private double[] diferencia;
 
     /**
-     * Constructor sin paámetros
+     * Constructor sin parámetros
      */
     public Indicador() {
     }
@@ -84,7 +84,7 @@ public class Indicador {
 
     /**
      * Método para poblar el array de diferencias, así como la menor y mayor
-     * variación
+     * diferencias
      */
     public void calculaVariaciones() {
         this.diferencia = new double[this.valor.length];
@@ -108,7 +108,7 @@ public class Indicador {
     }
 
     /**
-     * Método para obtener los días de menor variación
+     * Método para obtener los días de menor diferencia
      *
      * @return retorna un String con todos los días que cumplen con el criterio
      */
@@ -124,7 +124,7 @@ public class Indicador {
     }
 
     /**
-     * Método para obtener los días de mayor variación
+     * Método para obtener los días de mayor diferencia
      *
      * @return retorna un String con todos los días que cumplen con el criterio
      */

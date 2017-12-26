@@ -77,7 +77,7 @@ public class Metodos {
     public static DefaultTableModel llenarTabla(Indicador indicador) {
         DefaultTableModel tablemodel = new DefaultTableModel();
         String[] nombreColumnas = {"Codigo", "Nombre", "Unidad de Medida", "Fecha",
-            "Valor", "Variación (día anterior)"};
+            "Valor", "Diferencia (con día anterior)"};
         int tamano = indicador.getFecha().length;
         Object[][] dato = new String[tamano][6];
         String[] fecha = indicador.getFecha();
