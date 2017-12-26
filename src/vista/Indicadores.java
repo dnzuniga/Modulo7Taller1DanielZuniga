@@ -23,6 +23,7 @@ public class Indicadores extends javax.swing.JFrame {
     public Indicador uf;
     public Indicador euro;
     public Indicador ipc;
+    public Indicador bitcoin;
 
     private static final String url = "http://mindicador.cl/api/";
     public boolean problemasConexion = false;
@@ -66,12 +67,19 @@ public class Indicadores extends javax.swing.JFrame {
                     + url + "ipc\n");
             problemasConexion = true;
         }
+        if (Metodos.urlConecta(url + "bitcoin")) {
+            bitcoin = Metodos.consumirIndicador("bitcoin");
+        } else {
+            JOptionPane.showMessageDialog(null, "Error en la conexión a "
+                    + url + "bitcoin\n");
+            problemasConexion = true;
+        }
         if (problemasConexion) {
             System.exit(0);
         }
         tbIndicadores.setModel(Metodos.llenarTabla(indicadorSeleccionado()));
-        txaMenorVariacion.setText(indicadorSeleccionado().obtieneDiasMinimos());
-        txaMayorVariacion.setText(indicadorSeleccionado().obtieneDiasMaximos());
+        txaMenorVariacion.setText(indicadorSeleccionado().obtieneDiasDiferenciaMinima());
+        txaMayorVariacion.setText(indicadorSeleccionado().obtieneDiasDiferenciaMaxima());
 
     }
 
@@ -156,7 +164,7 @@ public class Indicadores extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 0, 36)); // NOI18N
         jLabel1.setText("INDICADORES");
 
-        cboIndicadores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dolar", "UTM", "UF", "Euro", "IPC" }));
+        cboIndicadores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dolar", "UTM", "UF", "Euro", "IPC", "BitCoin" }));
         cboIndicadores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboIndicadoresActionPerformed(evt);
@@ -227,8 +235,8 @@ public class Indicadores extends javax.swing.JFrame {
 
     private void cboIndicadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboIndicadoresActionPerformed
         tbIndicadores.setModel(Metodos.llenarTabla(indicadorSeleccionado()));
-        txaMenorVariacion.setText(indicadorSeleccionado().obtieneDiasMinimos());
-        txaMayorVariacion.setText(indicadorSeleccionado().obtieneDiasMaximos());
+        txaMenorVariacion.setText(indicadorSeleccionado().obtieneDiasDiferenciaMinima());
+        txaMayorVariacion.setText(indicadorSeleccionado().obtieneDiasDiferenciaMaxima());
 
     }//GEN-LAST:event_cboIndicadoresActionPerformed
 
@@ -309,6 +317,9 @@ public class Indicadores extends javax.swing.JFrame {
                 break;
             case 4:
                 indicador = ipc;
+                break;
+            case 5:
+                indicador = bitcoin;
                 break;
         }
         return indicador;

@@ -82,7 +82,7 @@ public class Metodos {
         Object[][] dato = new String[tamano][6];
         String[] fecha = indicador.getFecha();
         String[] valor = indicador.getValor();
-        double[] variacion = indicador.getVariacion();
+        double[] diferencia = indicador.getDiferencia();
         int cont = 0;
         while (cont < tamano) {
             dato[cont][0] = indicador.getCodigo();
@@ -90,7 +90,7 @@ public class Metodos {
             dato[cont][2] = indicador.getUnidadMedida();
             dato[cont][3] = fecha[cont];
             dato[cont][4] = valor[cont];
-            dato[cont][5] = String.valueOf(variacion[cont]);
+            dato[cont][5] = String.valueOf(diferencia[cont]);
             cont++;
         }
         tablemodel.setDataVector(dato, nombreColumnas);

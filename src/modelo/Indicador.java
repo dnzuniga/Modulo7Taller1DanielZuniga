@@ -19,9 +19,9 @@ public class Indicador {
     private String unidadMedida;
     private String[] fecha;
     private String[] valor;
-    private double variacionDiaMinimo;
-    private double variacionDiaMaximo;
-    private double[] variacion;
+    private double diferenciaMinima;
+    private double diferenciaMaxima;
+    private double[] diferencia;
 
     /**
      * Constructor sin paámetros
@@ -70,41 +70,41 @@ public class Indicador {
         this.fecha = fecha;
     }
 
-    public double[] getVariacion() {
-        return variacion;
+    public double[] getDiferencia() {
+        return diferencia;
     }
 
-    public double getVariacionDiaMinimo() {
-        return variacionDiaMinimo;
+    public double getDiferenciaMinima() {
+        return diferenciaMinima;
     }
 
-    public double getVariacionDiaMaximo() {
-        return variacionDiaMaximo;
+    public double getDiferenciaMaxima() {
+        return diferenciaMaxima;
     }
 
     /**
-     * Método para poblar el array de variaciones, así como la menor y mayor
+     * Método para poblar el array de diferencias, así como la menor y mayor
      * variación
      */
     public void calculaVariaciones() {
-        this.variacion = new double[this.valor.length];
+        this.diferencia = new double[this.valor.length];
         double[] valorNumero = new double[this.valor.length];
         for (int cont = 0; cont < this.valor.length; cont++) {
             valorNumero[cont] = Double.parseDouble(valor[cont]);
         }
-        this.variacion[0] = valorNumero[0] - valorNumero[1];
-        this.variacionDiaMinimo = this.variacion[0];
-        this.variacionDiaMaximo = this.variacion[0];
+        this.diferencia[0] = valorNumero[0] - valorNumero[1];
+        this.diferenciaMinima = this.diferencia[0];
+        this.diferenciaMaxima = this.diferencia[0];
         for (int cont = 1; cont < valorNumero.length - 1; cont++) {
-            this.variacion[cont] = valorNumero[cont] - valorNumero[cont + 1];
-            if (this.variacionDiaMinimo > this.variacion[cont]) {
-                this.variacionDiaMinimo = this.variacion[cont];
+            this.diferencia[cont] = valorNumero[cont] - valorNumero[cont + 1];
+            if (this.diferenciaMinima > this.diferencia[cont]) {
+                this.diferenciaMinima = this.diferencia[cont];
             }
-            if (this.variacionDiaMaximo < this.variacion[cont]) {
-                this.variacionDiaMaximo = this.variacion[cont];
+            if (this.diferenciaMaxima < this.diferencia[cont]) {
+                this.diferenciaMaxima = this.diferencia[cont];
             }
         }
-        this.variacion[valorNumero.length - 1] = 0;
+        this.diferencia[valorNumero.length - 1] = 0;
     }
 
     /**
@@ -112,12 +112,12 @@ public class Indicador {
      *
      * @return retorna un String con todos los días que cumplen con el criterio
      */
-    public String obtieneDiasMinimos() {
+    public String obtieneDiasDiferenciaMinima() {
         String texto = "";
         for (int cont = 0; cont < this.valor.length - 1; cont++) {
-            if (this.variacion[cont] == this.variacionDiaMinimo) {
+            if (this.diferencia[cont] == this.diferenciaMinima) {
                 texto += "Día: " + this.fecha[cont].substring(0, 10) + ", Variación: "
-                        + String.format("%.5f", this.variacion[cont]) + "\n";
+                        + String.format("%.5f", this.diferencia[cont]) + "\n";
             }
         }
         return texto;
@@ -128,12 +128,12 @@ public class Indicador {
      *
      * @return retorna un String con todos los días que cumplen con el criterio
      */
-    public String obtieneDiasMaximos() {
+    public String obtieneDiasDiferenciaMaxima() {
         String texto = "";
         for (int cont = 0; cont < this.valor.length - 1; cont++) {
-            if (this.variacion[cont] == this.variacionDiaMaximo) {
+            if (this.diferencia[cont] == this.diferenciaMaxima) {
                 texto += "Día: " + this.fecha[cont].substring(0, 10) + ", Variación: "
-                        + String.format("%.5f", this.variacion[cont]) + "\n";
+                        + String.format("%.5f", this.diferencia[cont]) + "\n";
             }
         }
         return texto;
