@@ -1,7 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Resuelve el taller número 1 del módulo 7 "Integración Módulos de Software",
+ * Programa CORFO "Mil Programadores".
+ *
+ * @autor Daniel Zúñiga Correa, 2017-12-24 (yyyy-mm-dd)
  */
 package modelo;
 
@@ -15,20 +16,27 @@ import javax.json.JsonReader;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * Clase que contiene los métodos que permiten consumir la información contenida
+ * en http://mindicador.cl, y crear la tabla a utilizar en el elemento JTable
  *
- * @author dnzun
+ * @author Daniel Zúñiga Correa, 2017-12-24 (yyyy-mm-dd)
  */
 public class Metodos {
 
     public Metodos() {
     }
 
-    //Métodos Custom
-    public static Indicador leeIndicador(String indicador) {
+    /**
+     * Método para consumir la información contenida en la api
+     * http://mindicador.cl/api
+     *
+     * @param indicador corresponde al indicador cuyos datos se quiere consumir
+     * @return retorna un objeto clase Indicador que contiene los datos
+     * consumidos
+     */
+    public static Indicador consumirIndicador(String indicador) {
         Indicador indicadorTemp = new Indicador();
         int tamano;
-        String nombre;
-        String unidadMedida;
         String[] fechaTemp = new String[31];
         String[] valorTemp = new String[31];
         try {
@@ -40,12 +48,16 @@ public class Metodos {
             fechaTemp = new String[tamano];
             valorTemp = new String[tamano];
             for (int cont = 0; cont < objeto.getJsonArray("serie").size(); cont++) {
-                fechaTemp[cont] = String.valueOf(objeto.getJsonArray("serie").getJsonObject(cont).get("fecha"));
-                valorTemp[cont] = String.valueOf(objeto.getJsonArray("serie").getJsonObject(cont).get("valor"));
+                fechaTemp[cont] = String.valueOf(objeto.getJsonArray("serie")
+                        .getJsonObject(cont).get("fecha")).substring(1, 11);
+                valorTemp[cont] = String.valueOf(objeto.getJsonArray("serie")
+                        .getJsonObject(cont).get("valor"));
             }
             indicadorTemp.setCodigo(indicador);
-            indicadorTemp.setNombre(String.valueOf(objeto.get("nombre")));
-            indicadorTemp.setUnidadMedida(String.valueOf(objeto.get("unidad_medida")));
+            indicadorTemp.setNombre(String.valueOf(objeto.get("nombre"))
+                    .substring(1, objeto.get("nombre").toString().length() - 1));
+            indicadorTemp.setUnidadMedida(String.valueOf(objeto.get("unidad_medida"))
+                    .substring(1, objeto.get("unidad_medida").toString().length() - 1));
             indicadorTemp.setFecha(fechaTemp);
             indicadorTemp.setValor(valorTemp);
             indicadorTemp.calculaVariaciones();
@@ -54,94 +66,13 @@ public class Metodos {
         }
         return indicadorTemp;
     }
-//
-//    public static String obtieneNombre(String indicador) {
-//        String texto = "";
-//        try {
-//            URL url = new URL("http://mindicador.cl/api" + "/" + indicador);
-//            InputStream entrada = url.openStream();
-//            JsonReader reader = Json.createReader(entrada);
-//            JsonObject objeto = reader.readObject();
-//            texto = objeto.getString("nombre");
-//        } catch (MalformedURLException e) {
-//        } catch (IOException e) {
-//        }
-//        return texto;
-//    }
-//
-//    public static String obtieneUnidadMedida(String indicador) {
-//        String texto = "";
-//        try {
-//            URL url = new URL("http://mindicador.cl/api" + "/" + indicador);
-//            InputStream entrada = url.openStream();
-//            JsonReader reader = Json.createReader(entrada);
-//            JsonObject objeto = reader.readObject();
-//            texto = objeto.getString("unidad_medida");
-//        } catch (MalformedURLException e) {
-//        } catch (IOException e) {
-//        }
-//        return texto;
-//    }
-//
-//    public static String[] obtieneFecha(String indicador) {
-//        int tamano = 0;
-//        String[] fechaTemp = new String[31];
-//        try {
-//            URL url = new URL("http://mindicador.cl/api" + "/" + indicador);
-//            InputStream entrada = url.openStream();
-//            JsonReader reader = Json.createReader(entrada);
-//            JsonObject objeto = reader.readObject();
-//            tamano = objeto.getJsonArray("serie").size();
-//            fechaTemp = new String[tamano];
-//            for (int cont = 0; cont < objeto.getJsonArray("serie").size(); cont++) {
-//                fechaTemp[cont] = String.valueOf(objeto.getJsonArray("serie").getJsonObject(cont).get("fecha"));
-//            }
-//        } catch (MalformedURLException e) {
-//        } catch (IOException e) {
-//        }
-//        return fechaTemp;
-//    }
-//
-//    public static String[] obtieneValor(String indicador) {
-//        int tamano = 0;
-//        String[] valorTemp = new String[31];
-//        try {
-//            URL url = new URL("http://mindicador.cl/api" + "/" + indicador);
-//            InputStream entrada = url.openStream();
-//            JsonReader reader = Json.createReader(entrada);
-//            JsonObject objeto = reader.readObject();
-//            tamano = objeto.getJsonArray("serie").size();
-//            valorTemp = new String[tamano];
-//            for (int cont = 0; cont < objeto.getJsonArray("serie").size(); cont++) {
-//                valorTemp[cont] = String.valueOf(objeto.getJsonArray("serie").getJsonObject(cont).get("valor"));
-//            }
-//        } catch (MalformedURLException e) {
-//        } catch (IOException e) {
-//        }
-//        return valorTemp;
-//    }
-//
-//    public static int obtieneTamano(String indicador) {
-//        int tamano = 0;
-//        try {
-//            URL url = new URL("http://mindicador.cl/api" + "/" + indicador);
-//            InputStream entrada = url.openStream();
-//            JsonReader reader = Json.createReader(entrada);
-//            JsonObject objeto = reader.readObject();
-//            tamano = objeto.getJsonArray("serie").size();
-//        } catch (MalformedURLException e) {
-//        } catch (IOException e) {
-//        }
-//        return tamano;
-//    }
-//
 
     /**
-     * Método para crear la matriz de empleados a ingresar en el JTable de la
-     * vista listar
+     * Método para crear la matriz de datos corrspondientes al indicador
+     * consumido, a ingresar en el JTable de la vista listar
      *
      * @return retorna un objeto DefaultTableModel que contiene una matriz de
-     * empleados
+     * datos del indicador
      */
     public static DefaultTableModel llenarTabla(Indicador indicador) {
         DefaultTableModel tablemodel = new DefaultTableModel();
@@ -165,4 +96,23 @@ public class Metodos {
         tablemodel.setDataVector(dato, nombreColumnas);
         return tablemodel;
     }
+
+    /**
+     * Método para deteminar si el url está disponible
+     *
+     * @param url corresponde al url a revisar
+     * @return retorna true si el url está disponible y false en caso contrario
+     */
+    public static boolean urlConecta(String url) {
+        boolean exito = false;
+        try {
+            URL urlTemp = new URL(url);
+            InputStream entrada = urlTemp.openStream();
+            exito = true;
+        } catch (MalformedURLException e) {
+        } catch (IOException e) {
+        }
+        return exito;
+    }
+
 }

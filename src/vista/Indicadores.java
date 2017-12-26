@@ -1,17 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Resuelve el taller número 1 del módulo 7 "Integración Módulos de Software",
+ * Programa CORFO "Mil Programadores".
+ *
+ * @autor Daniel Zúñiga Correa, 2017-12-24 (yyyy-mm-dd)
  */
 package vista;
 
+import javax.swing.JOptionPane;
 import modelo.*;
 
 /**
+ * Clase JFrame correspondiente a la vista que contiene principal del proyecto.
  *
- * @author dnzun
+ * @author Daniel Zúñiga Correa, 2017-12-24 (yyyy-mm-dd)
  */
 public class Indicadores extends javax.swing.JFrame {
+//    Declaración de variables de clase para su utilización en los métodos contenidos
+//    en esta vista.
 
     public Indicador dolar;
     public Indicador utm;
@@ -19,17 +24,55 @@ public class Indicadores extends javax.swing.JFrame {
     public Indicador euro;
     public Indicador ipc;
 
-    /**
-     * Creates new form Indicadores
-     */
+    private static final String url = "http://mindicador.cl/api/";
+    public boolean problemasConexion = false;
+
     public Indicadores() {
         initComponents();
-        dolar = Metodos.leeIndicador("dolar");
-        utm = Metodos.leeIndicador("utm");
-        uf = Metodos.leeIndicador("uf");
-        euro = Metodos.leeIndicador("euro");
-        ipc = Metodos.leeIndicador("ipc");
+        this.setLocationRelativeTo(null);
+//        Verifica que los indicadores esten disponibles en el url respectivo
+        if (Metodos.urlConecta(url + "dolar")) {
+            dolar = Metodos.consumirIndicador("dolar");
+        } else {
+            JOptionPane.showMessageDialog(null, "Error en la conexión a "
+                    + url + "dolar\n");
+            problemasConexion = true;
+        }
+        if (Metodos.urlConecta(url + "utm")) {
+            utm = Metodos.consumirIndicador("utm");
+        } else {
+            JOptionPane.showMessageDialog(null, "Error en la conexión a "
+                    + url + "utm\n");
+            problemasConexion = true;
+        }
+        if (Metodos.urlConecta(url + "uf")) {
+            uf = Metodos.consumirIndicador("uf");
+        } else {
+            JOptionPane.showMessageDialog(null, "Error en la conexión a "
+                    + url + "uf\n");
+            problemasConexion = true;
+        }
+        if (Metodos.urlConecta(url + "euro")) {
+            euro = Metodos.consumirIndicador("euro");
+        } else {
+            JOptionPane.showMessageDialog(null, "Error en la conexión a "
+                    + url + "euro\n");
+            problemasConexion = true;
+        }
+        if (Metodos.urlConecta(url + "ipc")) {
+            ipc = Metodos.consumirIndicador("ipc");
+        } else {
+            JOptionPane.showMessageDialog(null, "Error en la conexión a "
+                    + url + "ipc\n");
+            problemasConexion = true;
+        }
+        if (problemasConexion) {
+            System.exit(0);
+        }
         tbIndicadores.setModel(Metodos.llenarTabla(indicadorSeleccionado()));
+        txaMenorVariacion.setText(indicadorSeleccionado().obtieneDiasMinimos());
+        txaMayorVariacion.setText(indicadorSeleccionado().obtieneDiasMaximos());
+
     }
 
     /**
@@ -45,47 +88,70 @@ public class Indicadores extends javax.swing.JFrame {
         tbIndicadores = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         cboIndicadores = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txaMenorVariacion = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txaMayorVariacion = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tbIndicadores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6 "
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tbIndicadores);
+        if (tbIndicadores.getColumnModel().getColumnCount() > 0) {
+            tbIndicadores.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tbIndicadores.getColumnModel().getColumn(1).setPreferredWidth(70);
+            tbIndicadores.getColumnModel().getColumn(2).setPreferredWidth(70);
+            tbIndicadores.getColumnModel().getColumn(3).setPreferredWidth(40);
+            tbIndicadores.getColumnModel().getColumn(4).setPreferredWidth(40);
+            tbIndicadores.getColumnModel().getColumn(5).setPreferredWidth(70);
+        }
 
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 0, 36)); // NOI18N
         jLabel1.setText("INDICADORES");
@@ -97,20 +163,44 @@ public class Indicadores extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel2.setText("Menor Variación");
+
+        txaMenorVariacion.setColumns(20);
+        txaMenorVariacion.setRows(5);
+        jScrollPane2.setViewportView(txaMenorVariacion);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel3.setText("Mayor Variación");
+
+        txaMayorVariacion.setColumns(20);
+        txaMayorVariacion.setRows(5);
+        jScrollPane3.setViewportView(txaMayorVariacion);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(135, 135, 135)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(223, 223, 223)
-                        .addComponent(cboIndicadores, 0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(69, 69, 69))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(180, 180, 180)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(cboIndicadores, 0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,6 +211,14 @@ public class Indicadores extends javax.swing.JFrame {
                 .addComponent(cboIndicadores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -129,7 +227,8 @@ public class Indicadores extends javax.swing.JFrame {
 
     private void cboIndicadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboIndicadoresActionPerformed
         tbIndicadores.setModel(Metodos.llenarTabla(indicadorSeleccionado()));
-
+        txaMenorVariacion.setText(indicadorSeleccionado().obtieneDiasMinimos());
+        txaMayorVariacion.setText(indicadorSeleccionado().obtieneDiasMaximos());
 
     }//GEN-LAST:event_cboIndicadoresActionPerformed
 
@@ -167,25 +266,31 @@ public class Indicadores extends javax.swing.JFrame {
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
 
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
         new Indicadores().setVisible(true);
 
-//            }
-//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JComboBox<String> cboIndicadores;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private static javax.swing.JTable tbIndicadores;
+    private javax.swing.JTextArea txaMayorVariacion;
+    private javax.swing.JTextArea txaMenorVariacion;
     // End of variables declaration//GEN-END:variables
 
-//Métodos Custom
+    /**
+     * Método para determinar cual objeto clase Indicador corresponde a la
+     * opción seleccionada en el combo box respectivo
+     *
+     * @return retorna el objeto clase Indicador que corresponde a la opción
+     * seleccionada en el combo box
+     */
     private Indicador indicadorSeleccionado() {
         int index = cboIndicadores.getSelectedIndex();
         Indicador indicador = new Indicador();
